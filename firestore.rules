@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// No sign-in: anyone with the app link can read and write.
+// These rules only make sure documents have the expected shape.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /kids/{kidId} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.keys().hasOnly(['name', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.createdAt is timestamp;
+    }
+    match /entries/{entryId} {
+      allow read, delete: if true;
+      allow create, update: if request.resource.data.keys().hasOnly(['kidId', 'amount', 'note', 'createdAt'])
+        && request.resource.data.kidId is string
+        && request.resource.data.amount is number
+        && request.resource.data.note is string
+        && request.resource.data.note.size() <= 500
+        && request.resource.data.createdAt is timestamp;
+    }
+  }
+}

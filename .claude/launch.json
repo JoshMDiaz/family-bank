@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "family-bank-emulator", "runtimeExecutable": "node", "runtimeArgs": ["node_modules/vite/bin/vite.js", "--mode", "emulator"], "port": 5173 }
+  ]
+}
